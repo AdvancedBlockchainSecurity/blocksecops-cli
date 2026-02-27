@@ -19,7 +19,7 @@ class JUnitFormatter(BaseFormatter):
         """Format scan results as JUnit XML."""
         # Create root element
         testsuites = ET.Element("testsuites")
-        testsuites.set("name", "BlockSecOps Security Scan")
+        testsuites.set("name", "Apogee Security Scan")
         testsuites.set("tests", str(result.total_vulnerabilities or 1))
         testsuites.set("failures", str(result.critical_count + result.high_count))
         testsuites.set("errors", "0")
@@ -28,14 +28,14 @@ class JUnitFormatter(BaseFormatter):
             testsuites.set("time", f"{result.duration_seconds:.3f}")
 
         # Create testsuite for each scanner
-        scanners = result.scanners_used or ["blocksecops"]
+        scanners = result.scanners_used or ["0xapogee"]
         for scanner in scanners:
             scanner_vulns = [
                 v for v in result.vulnerabilities if v.scanner_id == scanner
             ]
 
             testsuite = ET.SubElement(testsuites, "testsuite")
-            testsuite.set("name", f"BlockSecOps - {scanner}")
+            testsuite.set("name", f"Apogee - {scanner}")
             testsuite.set("tests", str(len(scanner_vulns) or 1))
 
             failures = sum(
@@ -50,7 +50,7 @@ class JUnitFormatter(BaseFormatter):
                 # Add a passing test case if no vulnerabilities
                 testcase = ET.SubElement(testsuite, "testcase")
                 testcase.set("name", "No vulnerabilities found")
-                testcase.set("classname", f"blocksecops.{scanner}")
+                testcase.set("classname", f"0xapogee.{scanner}")
             else:
                 for vuln in scanner_vulns:
                     testcase = self._create_testcase(vuln, scanner)
@@ -61,7 +61,7 @@ class JUnitFormatter(BaseFormatter):
     def format_summary(self, result: ScanResult) -> str:
         """Format a brief summary as JUnit XML."""
         testsuites = ET.Element("testsuites")
-        testsuites.set("name", "BlockSecOps Security Summary")
+        testsuites.set("name", "Apogee Security Summary")
         testsuites.set("tests", "1")
 
         failures = "1" if result.critical_count > 0 or result.high_count > 0 else "0"
@@ -76,7 +76,7 @@ class JUnitFormatter(BaseFormatter):
 
         testcase = ET.SubElement(testsuite, "testcase")
         testcase.set("name", "Security Scan")
-        testcase.set("classname", "blocksecops.summary")
+        testcase.set("classname", "0xapogee.summary")
 
         if result.critical_count > 0 or result.high_count > 0:
             failure = ET.SubElement(testcase, "failure")
@@ -91,7 +91,7 @@ class JUnitFormatter(BaseFormatter):
         testcase = ET.Element("testcase")
 
         # Use file path as classname if available
-        classname = f"blocksecops.{scanner}"
+        classname = f"0xapogee.{scanner}"
         if vuln.file_path:
             # Convert file path to classname format
             path = vuln.file_path.replace("/", ".").replace("\\", ".")

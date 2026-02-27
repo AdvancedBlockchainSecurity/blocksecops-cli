@@ -1,4 +1,4 @@
-"""CLI commands for BlockSecOps."""
+"""CLI commands for Apogee."""
 
 from .auth import app as auth_app
 from .scan import app as scan_app

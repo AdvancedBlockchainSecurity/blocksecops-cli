@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
-# BlockSecOps pre-commit hook
+# Apogee pre-commit hook
 # Scans staged smart contract files for security vulnerabilities
 
 set -e
 
 # Configuration (can be overridden with environment variables)
-BLOCKSECOPS_FAIL_ON="${BLOCKSECOPS_FAIL_ON:-high}"
-BLOCKSECOPS_TIMEOUT="${BLOCKSECOPS_TIMEOUT:-300}"
-BLOCKSECOPS_OUTPUT="${BLOCKSECOPS_OUTPUT:-table}"
+APOGEE_FAIL_ON="${APOGEE_FAIL_ON:-high}"
+APOGEE_TIMEOUT="${APOGEE_TIMEOUT:-300}"
+APOGEE_OUTPUT="${APOGEE_OUTPUT:-table}"
 
 # Colors for output
 RED='\033[0;31m'
@@ -15,17 +15,17 @@ GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
 
-# Check if blocksecops is installed
-if ! command -v blocksecops &> /dev/null; then
-    echo -e "${RED}Error: blocksecops CLI is not installed${NC}"
-    echo "Install with: pip install blocksecops-cli"
+# Check if 0xapogee is installed
+if ! command -v 0xapogee &> /dev/null; then
+    echo -e "${RED}Error: 0xapogee CLI is not installed${NC}"
+    echo "Install with: pip install 0xapogee-cli"
     exit 1
 fi
 
 # Check if authenticated
-if ! blocksecops auth status &> /dev/null; then
-    echo -e "${YELLOW}Warning: Not authenticated with BlockSecOps${NC}"
-    echo "Run: blocksecops auth login"
+if ! 0xapogee auth status &> /dev/null; then
+    echo -e "${YELLOW}Warning: Not authenticated with Apogee${NC}"
+    echo "Run: 0xapogee auth login"
     exit 0  # Don't block commit if not authenticated
 fi
 
@@ -37,7 +37,7 @@ if [ -z "$STAGED_FILES" ]; then
     exit 0
 fi
 
-echo -e "${GREEN}BlockSecOps: Scanning staged smart contracts...${NC}"
+echo -e "${GREEN}Apogee: Scanning staged smart contracts...${NC}"
 echo ""
 
 # Count files
@@ -57,15 +57,15 @@ for FILE in $STAGED_FILES; do
         echo -e "Scanning: ${YELLOW}$FILE${NC}"
 
         # Run scan and capture exit code
-        if blocksecops scan run "$FILE" \
-            --output "$BLOCKSECOPS_OUTPUT" \
-            --fail-on "$BLOCKSECOPS_FAIL_ON" \
+        if 0xapogee scan run "$FILE" \
+            --output "$APOGEE_OUTPUT" \
+            --fail-on "$APOGEE_FAIL_ON" \
             2>&1; then
             echo -e "${GREEN}  No critical/high vulnerabilities found${NC}"
         else
             EXIT_CODE=$?
             if [ $EXIT_CODE -eq 1 ]; then
-                echo -e "${RED}  Vulnerabilities found at or above $BLOCKSECOPS_FAIL_ON severity${NC}"
+                echo -e "${RED}  Vulnerabilities found at or above $APOGEE_FAIL_ON severity${NC}"
                 SCAN_FAILED=1
             else
                 echo -e "${RED}  Scan error (exit code: $EXIT_CODE)${NC}"
@@ -85,7 +85,7 @@ if [ $SCAN_FAILED -eq 1 ]; then
     echo "  1. Fix the vulnerabilities and try again"
     echo "  2. Run with --no-verify to skip this check (not recommended)"
     echo "     git commit --no-verify -m 'your message'"
-    echo "  3. Adjust the severity threshold with BLOCKSECOPS_FAIL_ON=critical"
+    echo "  3. Adjust the severity threshold with APOGEE_FAIL_ON=critical"
     echo ""
     exit 1
 fi
