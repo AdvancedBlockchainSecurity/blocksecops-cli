@@ -7,7 +7,7 @@ from typing import Optional
 
 import keyring
 from pydantic import BaseModel, Field
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 # Constants
 APP_NAME = "0xapogee"
@@ -30,9 +30,7 @@ class Settings(BaseSettings):
     apogee_api_url: Optional[str] = Field(default=None, alias="APOGEE_API_URL")
     ci: bool = Field(default=False, alias="CI")
 
-    class Config:
-        env_file = ".env"
-        extra = "ignore"
+    model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 
 
 def get_config_dir() -> Path:
