@@ -33,9 +33,9 @@ class SARIFFormatter(BaseFormatter):
                 {
                     "tool": {
                         "driver": {
-                            "name": "BlockSecOps",
+                            "name": "Apogee",
                             "version": "0.1.0",
-                            "informationUri": "https://blocksecops.io",
+                            "informationUri": "https://0xapogee.com",
                             "rules": self._build_rules(result),
                         }
                     },
@@ -62,7 +62,7 @@ class SARIFFormatter(BaseFormatter):
                 {
                     "tool": {
                         "driver": {
-                            "name": "BlockSecOps",
+                            "name": "Apogee",
                             "version": "0.1.0",
                         }
                     },

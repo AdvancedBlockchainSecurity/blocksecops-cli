@@ -1,4 +1,4 @@
-"""HTTP client for BlockSecOps API."""
+"""HTTP client for Apogee API."""
 
 import asyncio
 import time
@@ -26,8 +26,8 @@ class AuthenticationError(APIError):
     pass
 
 
-class BlockSecOpsClient:
-    """HTTP client for interacting with the BlockSecOps API."""
+class ApogeeClient:
+    """HTTP client for interacting with the Apogee API."""
 
     def __init__(
         self,
@@ -51,7 +51,7 @@ class BlockSecOpsClient:
         """Get request headers with authentication."""
         headers = {
             "Accept": "application/json",
-            "User-Agent": "blocksecops-cli/0.1.0",
+            "User-Agent": "0xapogee-cli/0.1.0",
         }
         if self.api_key:
             headers["X-API-Key"] = self.api_key
@@ -80,7 +80,7 @@ class BlockSecOpsClient:
 
         if response.status_code == 401:
             raise AuthenticationError(
-                "Authentication failed. Please run 'blocksecops auth login'.",
+                "Authentication failed. Please run '0xapogee auth login'.",
                 status_code=401,
             )
 

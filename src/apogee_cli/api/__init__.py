@@ -1,6 +1,6 @@
-"""API client for BlockSecOps."""
+"""API client for Apogee."""
 
-from .client import BlockSecOpsClient
+from .client import ApogeeClient
 from .models import (
     Contract,
     Scan,
@@ -11,7 +11,7 @@ from .models import (
 )
 
 __all__ = [
-    "BlockSecOpsClient",
+    "ApogeeClient",
     "Contract",
     "Scan",
     "ScanResult",

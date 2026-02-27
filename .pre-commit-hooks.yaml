@@ -1,10 +1,10 @@
-# Pre-commit hooks for BlockSecOps smart contract security scanning
+# Pre-commit hooks for Apogee smart contract security scanning
 # See https://pre-commit.com for more information
 
-- id: blocksecops-scan
-  name: BlockSecOps Security Scan
+- id: 0xapogee-scan
+  name: Apogee Security Scan
   description: Scan smart contracts for security vulnerabilities
-  entry: blocksecops scan run
+  entry: 0xapogee scan run
   language: python
   types_or: [solidity, file]
   files: \.(sol|vy|rs)$
@@ -15,10 +15,10 @@
   require_serial: true
   stages: [commit]
 
-- id: blocksecops-scan-critical
-  name: BlockSecOps Critical Only
+- id: 0xapogee-scan-critical
+  name: Apogee Critical Only
   description: Scan for critical vulnerabilities only (faster)
-  entry: blocksecops scan run
+  entry: 0xapogee scan run
   language: python
   types_or: [solidity, file]
   files: \.(sol|vy|rs)$
@@ -29,10 +29,10 @@
   require_serial: true
   stages: [commit]
 
-- id: blocksecops-scan-sarif
-  name: BlockSecOps SARIF Output
+- id: 0xapogee-scan-sarif
+  name: Apogee SARIF Output
   description: Scan with SARIF output for CI integration
-  entry: blocksecops scan run
+  entry: 0xapogee scan run
   language: python
   types_or: [solidity, file]
   files: \.(sol|vy|rs)$

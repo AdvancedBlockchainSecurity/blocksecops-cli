@@ -1,4 +1,4 @@
-"""Data models for BlockSecOps API responses."""
+"""Data models for Apogee API responses."""
 
 from datetime import datetime
 from enum import Enum

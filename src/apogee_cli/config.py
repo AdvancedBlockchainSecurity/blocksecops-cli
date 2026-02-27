@@ -1,4 +1,4 @@
-"""Configuration management for BlockSecOps CLI."""
+"""Configuration management for Apogee CLI."""
 
 import json
 import os
@@ -10,14 +10,14 @@ from pydantic import BaseModel, Field
 from pydantic_settings import BaseSettings
 
 # Constants
-APP_NAME = "blocksecops"
-CONFIG_DIR = Path.home() / ".blocksecops"
+APP_NAME = "0xapogee"
+CONFIG_DIR = Path.home() / ".0xapogee"
 CONFIG_FILE = CONFIG_DIR / "config.json"
 
 
 class Config(BaseModel):
-    """User configuration stored in ~/.blocksecops/config.json"""
-    api_url: str = Field(default="https://api.blocksecops.com")
+    """User configuration stored in ~/.0xapogee/config.json"""
+    api_url: str = Field(default="https://api.0xapogee.com")
     default_output: str = Field(default="table")  # table, json, sarif, junit
     default_severity_threshold: str = Field(default="high")  # critical, high, medium, low
     ci_mode: bool = Field(default=False)
@@ -26,8 +26,8 @@ class Config(BaseModel):
 
 class Settings(BaseSettings):
     """Environment-based settings (for CI/CD)."""
-    blocksecops_api_key: Optional[str] = Field(default=None, alias="BLOCKSECOPS_API_KEY")
-    blocksecops_api_url: Optional[str] = Field(default=None, alias="BLOCKSECOPS_API_URL")
+    apogee_api_key: Optional[str] = Field(default=None, alias="APOGEE_API_KEY")
+    apogee_api_url: Optional[str] = Field(default=None, alias="APOGEE_API_URL")
     ci: bool = Field(default=False, alias="CI")
 
     class Config:
@@ -60,14 +60,14 @@ def save_config(config: Config) -> None:
 def get_api_key() -> Optional[str]:
     """
     Get API key from (in order of precedence):
-    1. Environment variable BLOCKSECOPS_API_KEY
+    1. Environment variable APOGEE_API_KEY
     2. System keyring
     """
     settings = Settings()
 
     # Check environment variable first
-    if settings.blocksecops_api_key:
-        return settings.blocksecops_api_key
+    if settings.apogee_api_key:
+        return settings.apogee_api_key
 
     # Try keyring
     try:
@@ -107,8 +107,8 @@ def delete_api_key() -> None:
 def get_api_url() -> str:
     """Get API URL from config or environment."""
     settings = Settings()
-    if settings.blocksecops_api_url:
-        return settings.blocksecops_api_url
+    if settings.apogee_api_url:
+        return settings.apogee_api_url
 
     config = load_config()
     return config.api_url

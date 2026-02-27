@@ -10,7 +10,7 @@ import typer
 from rich.console import Console
 from rich.progress import Progress, SpinnerColumn, TextColumn
 
-from ..api.client import APIError, AuthenticationError, BlockSecOpsClient
+from ..api.client import APIError, AuthenticationError, ApogeeClient
 from ..config import get_api_key
 from ..formatters import OutputFormat, get_formatter
 
@@ -21,7 +21,7 @@ console = Console()
 def require_auth():
     """Check that user is authenticated."""
     if not get_api_key():
-        console.print("[red]Not authenticated. Run 'blocksecops auth login' first.[/red]")
+        console.print("[red]Not authenticated. Run '0xapogee auth login' first.[/red]")
         raise typer.Exit(1)
 
 
@@ -70,7 +70,7 @@ def scan_run(
         raise typer.Exit(1)
 
     async def run_scan():
-        client = BlockSecOpsClient()
+        client = ApogeeClient()
 
         with Progress(
             SpinnerColumn(),
@@ -108,7 +108,7 @@ def scan_run(
 
     if not wait:
         console.print(f"[green]Scan started: {scan.id}[/green]")
-        console.print(f"[dim]Check status with: blocksecops scan status {scan.id}[/dim]")
+        console.print(f"[dim]Check status with: 0xapogee scan status {scan.id}[/dim]")
         return
 
     if scan.status == "failed":
@@ -150,7 +150,7 @@ def scan_status(
         raise typer.Exit(1)
 
     async def get_status():
-        client = BlockSecOpsClient()
+        client = ApogeeClient()
         return await client.get_scan(uuid)
 
     try:
@@ -213,7 +213,7 @@ def scan_results(
         raise typer.Exit(1)
 
     async def get_results():
-        client = BlockSecOpsClient()
+        client = ApogeeClient()
         scan = await client.get_scan(uuid)
         result = await client.get_scan_results(uuid)
         return scan, result
@@ -255,7 +255,7 @@ def scan_list(
     require_auth()
 
     async def list_scans():
-        client = BlockSecOpsClient()
+        client = ApogeeClient()
         contracts = await client.list_contracts(limit=limit)
         return contracts
 

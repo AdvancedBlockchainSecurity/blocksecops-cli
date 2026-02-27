@@ -44,6 +44,6 @@ htmlcov/
 .nox/
 
 # Credentials
-.blocksecops/
+.0xapogee/
 *.env
 .env.*

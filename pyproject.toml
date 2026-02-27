@@ -3,14 +3,14 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "blocksecops-cli"
+name = "0xapogee-cli"
 version = "0.1.0"
-description = "CLI tool for BlockSecOps smart contract security scanning"
+description = "CLI tool for Apogee smart contract security scanning"
 readme = "README.md"
 license = "MIT"
 requires-python = ">=3.10"
 authors = [
-    { name = "BlockSecOps Team", email = "support@blocksecops.com" }
+    { name = "Apogee Team", email = "support@0xapogee.com" }
 ]
 keywords = ["blockchain", "security", "smart-contracts", "solidity", "audit"]
 classifiers = [
@@ -47,15 +47,15 @@ dev = [
 ]
 
 [project.scripts]
-blocksecops = "blocksecops_cli.main:cli"
+0xapogee = "apogee_cli.main:cli"
 
 [project.urls]
-Homepage = "https://blocksecops.com"
-Documentation = "https://docs.blocksecops.com/cli"
-Repository = "https://github.com/blocksecops/blocksecops-cli"
+Homepage = "https://0xapogee.com"
+Documentation = "https://docs.0xapogee.com/cli"
+Repository = "https://github.com/0xapogee/0xapogee-cli"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/blocksecops_cli"]
+packages = ["src/apogee_cli"]
 
 [tool.ruff]
 target-version = "py310"
